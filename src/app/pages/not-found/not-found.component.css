@@ -1,0 +1,21 @@
+
+
+@keyframes elevator {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px); /* Subir 20px */
+  }
+  100% {
+    transform: translateX(0); /* Regresar a la posición original */
+  }
+}
+
+.animate-elevator {
+  animation: elevator 2s ease-in-out infinite;
+}
+
+
+
+
