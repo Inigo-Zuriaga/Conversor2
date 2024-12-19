@@ -1,7 +1,7 @@
 import { Component,OnInit,OnDestroy} from '@angular/core';
 import { AuthService} from '../../../services/auth.service';
 import {debounceTime, Observable, Subscription} from 'rxjs';
-import { Idropdownoption } from '../../../Interfaces/idropdownoption';
+import {Idropdownoption} from '../../../Interfaces/idropdownoption';
 import {Router} from '@angular/router';
 @Component({
   selector: 'app-header',
