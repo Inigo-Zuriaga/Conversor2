@@ -44,9 +44,9 @@ export class ConversorComponent implements OnInit {
 
   ngOnInit() {
 
-    if (!this.authService.UserIsLogged()){
-      this.route.navigate(['/']);
-    }
+    // if (!this.authService.UserIsLogged()){
+    //   this.route.navigate(['/']);
+    // }
 
     this.filteredCurrencies = this.currencies;
 
