@@ -1,6 +1,6 @@
 <div class=" flex flex-col my-10 items-center">
   <h1 class="font-regularb font-bold">Conversor</h1>
-  <p class="font-regularb">Select the source currency and the target currency. Click 'Convert it!' to see the conversion value.</p>
+  <p class="font-regularb">Select the source currency and the target currency. Click 'Convert it!' to see the conversion value (Bigger than 0.1 )</p>
   </div>
   <br>
 
@@ -94,10 +94,14 @@
   </div>
 
   <div class="flex mt-10 items-center justify-center">
-    <button (click)="getExchangeRate(); closeDropdowns()" class="bg-primaryRed text-white p-2 rounded hover:bg-red-900 font-regularb font-bold">
-      Convert
+    <button 
+      (click)="getExchangeRate(); closeDropdowns()" 
+      class="bg-primaryRed text-white p-2 rounded hover:bg-red-900 font-regularb font-bold"
+      [disabled]="amount < 0.1 || !amount">
+      Convert it
     </button>
   </div>
+  
 
     <!-- Aquí se invoca el componente del gráfico -->
   <div *ngIf="chartReady" class="mt-20 px-4 max-w-screen-lg mx-auto">
