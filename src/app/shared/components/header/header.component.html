@@ -7,7 +7,7 @@
     <!-- Desktop Navigation Links -->
     <nav class="hidden md:flex space-x-7 items-center">
         <a routerLink="/conversor" class="text-white hover:text-blue-300">Convert</a>
-        <a routerLink="/about" class="text-white hover:text-blue-300">About us</a>
+        <a routerLink="/about" *ngIf="!isLoged"  class="text-white hover:text-blue-300">About us</a>
         <a *ngIf="isLoged" routerLink="/history" class="text-white hover:text-blue-300">History</a>
         <a routerLink="/contact-us" class="text-white hover:text-blue-300">Contact us</a>
         <a *ngIf="!isLoged" routerLink="/login" class="text-white hover:text-blue-300">Login</a>
@@ -34,7 +34,7 @@
 <div *ngIf="isMenuOpen" class="md:hidden bg-primaryBlue mt-16 pt-7 pb-7 rounded-xl rounded-t-none fixed z-50 top-0 left-0 right-0 mx-auto">
     <a (click)="toggleMenu()" routerLink="/conversor" class="block px-4 py-2 text-white hover:bg-blue-700">Convert</a>
     <a (click)="toggleMenu()" routerLink="/about" class="block px-4 py-2 text-white hover:bg-blue-700">About us</a>
-    <a (click)="toggleMenu()" routerLink="/contact-us" class="block px-4 py-2 text-white hover:bg-blue-700">Contact us</a>
+    <a (click)="toggleMenu()" *ngIf="!isLoged"  routerLink="/contact-us" class="block px-4 py-2 text-white hover:bg-blue-700">Contact us</a>
     <a (click)="toggleMenu()" *ngIf="isLoged" routerLink="/history" class="block px-4 py-2 text-white hover:bg-blue-700">History</a>
     <a (click)="toggleMenu()" *ngIf="!isLoged" routerLink="/login" class="block px-4 py-2 text-white hover:bg-blue-700">Login</a>
     <a (click)="toggleMenu()" *ngIf="isLoged" (click)="disconnect()" routerLink="/" class="block px-4 py-2 text-white hover:bg-blue-700">Logout</a>

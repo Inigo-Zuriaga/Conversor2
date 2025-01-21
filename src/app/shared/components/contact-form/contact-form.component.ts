@@ -1,75 +1,61 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { AuthService } from '../../../services/auth.service';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AuthService} from '../../../services/auth.service';
+import {Router} from '@angular/router';
+import {EmailService} from '../../../services/email.service';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-contact-form',
   templateUrl: './contact-form.component.html',
-  styleUrls: ['./contact-form.component.css']
+  styleUrl: './contact-form.component.css'
 })
-export class ContactFormComponent {
+export class ContactFormComponent implements OnInit {
   showWindow = false;
   contactForm: FormGroup;
-
-  // Constructor que recibe FormBuilder y AuthService
-  constructor(private fb: FormBuilder, private authService: AuthService, private route: Router) {
-    // Inicializa el formulario de login usando FormBuilder
+  email: string = '';
+  constructor(private fb: FormBuilder, private authService: AuthService,
+              private route: Router,private emailService:EmailService) {
+    // inicializa el formulario de login usando FormBuilder
     this.contactForm = this.fb.group({
       Subject: [''],
       Body: [''],
     });
   }
 
-  email: string = '';
+  ngOnInit() {
+    if (!this.authService.UserIsLogged()){
+      this.route.navigate(['/']);
+    }
+  }
 
   onSubmit() {
     const EmailData = {
       Subject: this.contactForm.value.Subject,
       Body: this.contactForm.value.Body,
     };
+    this.email = this.authService.getUserEmail();
 
-    // Confirmación extra antes de enviar el correo
-    Swal.fire({
-      title: "Are you sure you want to send this email?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      cancelButtonText: "Cancel",
-      confirmButtonText: "Send"
-    }).then((result: any) => {
-      if (result.isConfirmed) {
-        console.log("Llega aquí");
+    this.emailService.contactUs(this.email,EmailData.Subject, EmailData.Body).subscribe(
 
-        this.email = this.authService.getUserEmail();
+      (data) => {
+        console.log("Respuesta del backend:", data);
 
-        this.authService.sendEmail(this.email, EmailData.Subject, EmailData.Body).subscribe(
-          (data) => {
-            console.log("Respuesta del backend:", data);
-            Swal.fire({
-              title: "Email Sent!",
-              text: "The email was successfully sent.",
-              icon: "success",
-              confirmButtonText: "Ok"
-            });
-          },
-          (error) => {
-            console.error("Error en el envío del email:", error);
-            Swal.fire({
-              title: "Error!",
-              text: "There was an error sending the email.",
-              icon: "error",
-              confirmButtonText: "Ok"
-            });
-          }
-        );
+        Swal.fire({
+          title: "Email sent successfully",
+          text: "",
+          icon: "success",
+          showCancelButton: false,
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "Volver a la página principal",
+        }).then((result:any) => {
+          this.route.navigate(['/']);
+        });
+      },
+      (error) => {
+        console.error("Error en el envio del email:", error);
       }
-    });
-  }
 
-  toggleWindow(): void {
-    this.showWindow = !this.showWindow;
+    );
   }
 }
