@@ -28,12 +28,7 @@ export class ConversorComponent implements OnInit {
   filteredCurrencies: Currency[] = [];
   email: string = '';
   lastLength: number = 0;
-
-  validateAmount() {
-    if (this.amount < 0.1) {
-      this.amount = 0.1; // Corrige el valor automáticamente
-    }}
-
+  
   // Datos para el gráfico
   lineChartData: any = { datasets: [], labels: [] };
   historyData: any[] = [];

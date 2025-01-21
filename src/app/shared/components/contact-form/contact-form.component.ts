@@ -1,48 +1,73 @@
 import { Component } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthService} from '../../../services/auth.service';
-import {Router} from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { AuthService } from '../../../services/auth.service';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-contact-form',
   templateUrl: './contact-form.component.html',
-  styleUrl: './contact-form.component.css'
+  styleUrls: ['./contact-form.component.css']
 })
 export class ContactFormComponent {
   showWindow = false;
   contactForm: FormGroup;
 
-  // constructor que recive FormBuilder y AuthService
+  // Constructor que recibe FormBuilder y AuthService
   constructor(private fb: FormBuilder, private authService: AuthService, private route: Router) {
-    // inicializa el formulario de login usando FormBuilder
+    // Inicializa el formulario de login usando FormBuilder
     this.contactForm = this.fb.group({
       Subject: [''],
       Body: [''],
     });
   }
+
   email: string = '';
+
   onSubmit() {
     const EmailData = {
       Subject: this.contactForm.value.Subject,
       Body: this.contactForm.value.Body,
     };
-    console.log("Llega aqui")
 
-    this.email = this.authService.getUserEmail();
+    // Confirmación extra antes de enviar el correo
+    Swal.fire({
+      title: "Are you sure you want to send this email?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancel",
+      confirmButtonText: "Send"
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        console.log("Llega aquí");
 
-    this.authService.sendEmail(this.email,EmailData.Subject, EmailData.Body).subscribe(
+        this.email = this.authService.getUserEmail();
 
-      (data) => {
-        console.log("Respuesta del backend:", data);
-
-      },
-      (error) => {
-        console.error("Error en el envio del email:", error);
+        this.authService.sendEmail(this.email, EmailData.Subject, EmailData.Body).subscribe(
+          (data) => {
+            console.log("Respuesta del backend:", data);
+            Swal.fire({
+              title: "Email Sent!",
+              text: "The email was successfully sent.",
+              icon: "success",
+              confirmButtonText: "Ok"
+            });
+          },
+          (error) => {
+            console.error("Error en el envío del email:", error);
+            Swal.fire({
+              title: "Error!",
+              text: "There was an error sending the email.",
+              icon: "error",
+              confirmButtonText: "Ok"
+            });
+          }
+        );
       }
-
-    );
+    });
   }
-
 
   toggleWindow(): void {
     this.showWindow = !this.showWindow;
