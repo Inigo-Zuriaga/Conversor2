@@ -8,7 +8,7 @@
     <nav class="hidden md:flex space-x-7 items-center">
         <a routerLink="/conversor" class="text-white hover:text-blue-300">Convert</a>
         <a routerLink="/about" *ngIf="isLoged"  class="text-white hover:text-blue-300">About us</a>
-        <a *ngIf="!isLoged" routerLink="/history" class="text-white hover:text-blue-300">History</a>
+        <a *ngIf="isLoged" routerLink="/history" class="text-white hover:text-blue-300">History</a>
         <a  *ngIf="isLoged" routerLink="/contact-us" class="text-white hover:text-blue-300">Contact us</a>
         <a *ngIf="!isLoged" routerLink="/login" class="text-white hover:text-blue-300">Login</a>
         <app-dropdown 
