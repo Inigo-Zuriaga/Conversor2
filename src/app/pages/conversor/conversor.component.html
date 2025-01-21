@@ -1,7 +1,7 @@
 <div class=" flex flex-col my-10 items-center">
   <h1 class="font-regularb font-bold">Conversor</h1>
   <p class="font-regularb">Select the source currency and the target currency. Click 'Convert it!' to see the conversion value (greater than 0.1).</p>
-  <p class="font-regularb">Get access to the conversions chart by <a routerLink="/login" class=" text-blue-700 rounded-lg underline hover:text-white transition mb-5">logging in.</a></p>
+  <p *ngIf="!isLoged"  class="font-regularb">Get access to the conversions chart by <a routerLink="/login" class=" text-blue-700 rounded-lg underline hover:text-white transition mb-5">logging in.</a></p>
   
 </div>
   <br>
